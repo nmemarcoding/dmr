@@ -22,7 +22,8 @@ router.post("/register", async(req, res) => {
         ).toString(),
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        
+        phoneNumber: req.body.phoneNumber,
+
     });
 
     try {
