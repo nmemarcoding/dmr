@@ -15,12 +15,13 @@ export default function SignUpPage() {
             <input type="text" name="lastName" id="lastName" className="w-full h-10 border-2 border-gray-300 rounded-xl pl-4 mb-2"/>
             <label htmlFor="email">Email</label>
             <input type="email" name="email" id="email" className="w-full h-10 border-2 border-gray-300 rounded-xl pl-4 mb-2"/>
+            <label htmlFor="phoneNumber">Phone Number</label>
+            <input type="tel" name="phoneNumber" id="phoneNumber" className="w-full h-10 border-2 border-gray-300 rounded-xl pl-4 mb-2"/>
             <label htmlFor="password">Password</label>
             <input type="password" name="password" id="password" className="w-full h-10 border-2 border-gray-300 rounded-xl pl-4 mb-2"/>
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input type="password" name="confirmPassword" id="confirmPassword" className="w-full h-10 border-2 border-gray-300 rounded-xl pl-4 mb-2"/>
             <button className="w-full h-10 bg-yellow-500 rounded-xl mt-4">Sign Up</button>
-            {/* if you have an acount login */}
             <p className="text-center mt-2">
                 If you have an account{' '}
                 <Link to="/login" className="text-yellow-500">
