@@ -20,6 +20,9 @@ router.post("/register", async(req, res) => {
             req.body.password,
             "secret"
         ).toString(),
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        
     });
 
     try {
