@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar'
 import { publicRequest } from '../../hooks/requestMethods'
 import { useNavigate } from 'react-router-dom'
+import useStore from '../../store';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const navigate = useNavigate()
-
+  const addUserInfo = useStore((state) => state.addUserInfo)
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target
     setFormData({ ...formData, [name]: value })
@@ -18,7 +20,13 @@ export default function LoginPage() {
     publicRequest()
       .post('/auth/login', formData)
       .then((res) => {
-        navigate('/')
+        addUserInfo(res.data)
+        if (res.data.isAdmin) {
+            navigate('/admin')
+        }
+        else {
+            navigate('/')
+        }
       })
       .catch((err) => console.log(err))
   }
