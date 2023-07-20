@@ -2,7 +2,17 @@ import React, { useState } from 'react';
 import AdminNav from '../../components/AdminNav/AdminNav';
 
 export default function AddNewCar() {
-  const [selectedCar, setSelectedCar] = useState('');
+  const [carData, setCarData] = useState({
+    make: '',
+    model: '',
+    type: '',
+    fuelType: '',
+    seat: '',
+    year: '',
+    color: '',
+    image: '',
+    price: '',
+  });
 
   const availableCars = [
     'Acura',
@@ -49,8 +59,13 @@ export default function AddNewCar() {
     'Volvo'
   ];
 
-  const handleCarChange = (event) => {
-    setSelectedCar(event.target.value);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setCarData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    console.log(carData);
   };
 
   return (
@@ -62,8 +77,9 @@ export default function AddNewCar() {
           <form className="w-full flex flex-col justify-center items-center">
             <select
               className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
-              value={selectedCar}
-              onChange={handleCarChange}
+              name="make"
+              value={carData.make}
+              onChange={handleInputChange}
             >
               <option value="">Select a car</option>
               {availableCars.map((car) => (
@@ -76,48 +92,64 @@ export default function AddNewCar() {
               className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
               type="text"
               placeholder="Car Model"
+              name="model"
+              value={carData.model}
+              onChange={handleInputChange}
             />
             <select
-                className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
+              className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
+              name="type"
+              value={carData.type}
+              onChange={handleInputChange}
             >
-                <option value="">Select Car Type</option>
-                <option value="sedan">Sedan</option>
-                <option value="suv">SUV</option>
-                <option value="truck">Truck</option>
-                <option value="van">Van</option>
-                <option value="coupe">Coupe</option>
-                <option value="convertible">Convertible</option>
-                <option value="wagon">Wagon</option>
-            </select>
-            <select 
-                className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
-            >
-                <option value="">Select Fule Type</option>
-                <option value="gas">Gas</option>
-                <option value="diesel">Diesel</option>
-                <option value="electric">Electric</option>
-                <option value="hybrid">Hybrid</option>
-
+              <option value="">Select Car Type</option>
+              <option value="sedan">Sedan</option>
+              <option value="suv">SUV</option>
+              <option value="truck">Truck</option>
+              <option value="van">Van</option>
+              <option value="coupe">Coupe</option>
+              <option value="convertible">Convertible</option>
+              <option value="wagon">Wagon</option>
             </select>
             <select
-                className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
-            >   
-                <option value="">Select Seat</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="7">7</option>
-
+              className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
+              name="fuelType"
+              value={carData.fuelType}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Fuel Type</option>
+              <option value="gas">Gas</option>
+              <option value="diesel">Diesel</option>
+              <option value="electric">Electric</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+            <select
+              className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
+              name="seat"
+              value={carData.seat}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Seat</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="7">7</option>
             </select>
             <input
               className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
               type="number"
               placeholder="Car Year"
+              name="year"
+              value={carData.year}
+              onChange={handleInputChange}
               min="1900"
               max="2099"
             />
             <select
               className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
+              name="color"
+              value={carData.color}
+              onChange={handleInputChange}
             >
               <option value="">Select a color</option>
               <option value="black">Black</option>
@@ -136,11 +168,17 @@ export default function AddNewCar() {
               className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
               type="file"
               placeholder="Car Image"
+              name="image"
+              value={carData.image}
+              onChange={handleInputChange}
             />
             <input
               className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
               type="text"
               placeholder="Car Price"
+              name="price"
+              value={carData.price}
+              onChange={handleInputChange}
             />
             <button className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 bg-yellow-500 text-white">
               Add New Car
