@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminNav from '../../components/AdminNav/AdminNav';
+import { publicRequest } from '../../hooks/requestMethods';
 
 export default function AddNewCar() {
   const [carData, setCarData] = useState({
@@ -68,13 +69,29 @@ export default function AddNewCar() {
     console.log(carData);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // handle form submission here
+    publicRequest()
+      .post('/car/addnewcar', carData)
+      .then((res) => {
+        window.alert('New car added!');
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        window.alert('Something went wrong. Please try again.');
+        window.location.reload();
+      });
+  };
+
   return (
     <div className="w-screen h-screen">
       <AdminNav />
       {/* create section for new car input */}
       <div className="w-full h-full flex justify-center items-center">
         <div className="w-11/12 md:w-1/2 rounded-lg bg-gray-200 shadow-xl p-4 border-b-8 border-yellow-500">
-          <form className="w-full flex flex-col justify-center items-center">
+          <form className="w-full flex flex-col justify-center items-center" onSubmit={handleSubmit}>
             <select
               className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
               name="make"
