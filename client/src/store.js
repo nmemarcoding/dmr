@@ -2,12 +2,12 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware'
 
 let store = (set) => ({
-  userInf: {},
+  userInfo: {},
 
   addUserInfo: (userInfo) => {
     const today = new Date()
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-    set({ userInf: { ...userInfo, date } })
+    set({ userInfo: { ...userInfo, date } })
   },
   deleteUserInfo: () => set({ userInf: {} }),
 })
