@@ -40,7 +40,22 @@ const CarSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true,
+    },
+    rentedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    search: {
+        type: String,
+        
     }
 }, {timestamps: true});
+
+CarSchema.pre('save', function(next) {
+    const car = this;
+    car.search = `${car.make} ${car.model} ${car.type} ${car.fuelType} ${car.seat} ${car.year} ${car.color} `;
+    next();
+});
 
 module.exports = mongoose.model("Car", CarSchema);
