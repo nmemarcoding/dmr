@@ -22,6 +22,7 @@ export default function CarSearchPage() {
 
     return (
         <div className="h-screen w-screen">
+            <Navbar />
             
             {cars.map((car) => (
                 <div key={car._id} className="mt-10 px-10">
