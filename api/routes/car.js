@@ -37,29 +37,4 @@ router.get('/search', async (req, res) => {
 
 
 
-// get car by search query on searxh field when available is true
-router.get('/searchavailable', async(req, res) => {
-    try {
-        const cars = await Car.find({
-            search: {
-                $regex: req.query.search,
-                $options: "i"
-            },
-            available: true
-        });
-        res.status(200).json(cars);
-    } catch (err) {
-        res.status(500).json(err);
-        console.log(err)
-    }
-}
-);
-
-
-
-
-
-
-
-
 module.exports = router;

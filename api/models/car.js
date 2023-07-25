@@ -35,7 +35,11 @@ const CarSchema = new mongoose.Schema({
     },
     available: {
         type: Boolean,
-        default: true
+        default: true,
+    },
+    rented: {
+        type: Boolean,
+        default: false,
     },
     image: {
         type: String,
@@ -46,11 +50,19 @@ const CarSchema = new mongoose.Schema({
         ref: 'User',
         default: null
     },
+    reserveUntil: {
+        type: Date,
+        default: null,
+    },
     search: {
         type: String,
-        
     }
 }, {timestamps: true});
+
+CarSchema.methods.isAvailable = function() {
+    const now = new Date();
+    return this.available && !this.rented && (this.reserveUntil === null || this.reserveUntil < now);
+};
 
 CarSchema.pre('save', function(next) {
     const car = this;
