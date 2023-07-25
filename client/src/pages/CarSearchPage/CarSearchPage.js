@@ -8,6 +8,7 @@ export default function CarSearchPage() {
     const [cars, setCars] = useState([]);
     
     useEffect(() => {
+        console.log(searchQuery);
         publicRequest().get(`/car/search?search=${searchQuery}`)
 
             .then(res => {
@@ -24,11 +25,17 @@ export default function CarSearchPage() {
         <div className="h-screen w-screen">
             <Navbar />
             
-            {cars.map((car) => (
-                <div key={car._id} className="mt-10 px-10">
-                    <CarInfoCard car={car} />
+            {cars.length === 0 ? (
+                <div className="text-center mt-6 p-4 sm:p-0">
+                    <p className="text-2xl font-bold text-gray-500">No cars available for your search. Please search for a new car.</p>
                 </div>
-            ))}
+            ) : (
+                cars.map((car) => (
+                    <div key={car._id} className="mt-10 px-10">
+                        <CarInfoCard car={car} />
+                    </div>
+                ))
+            )}
           
         </div>
     )
