@@ -26,7 +26,8 @@ router.get('/search', async (req, res) => {
         }));
 
         // Combine the regex expressions with "$and" to search for all terms
-        const cars = await Car.find({ $and: regexExpressions });
+        let cars = await Car.find({ $and: regexExpressions });
+        cars = cars.filter(car => car.isAvailable());
 
         res.status(200).json(cars);
     } catch (err) {
@@ -34,6 +35,7 @@ router.get('/search', async (req, res) => {
         console.log(err);
     }
 });
+
 
 
 
