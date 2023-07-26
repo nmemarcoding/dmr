@@ -25,7 +25,7 @@ export default function LoginPage() {
             navigate('/admin')
         }
         else {
-            navigate('/')
+            navigate(-1)
         }
       })
       .catch((err) => console.log(err))
