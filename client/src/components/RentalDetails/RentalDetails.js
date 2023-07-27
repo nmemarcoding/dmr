@@ -1,8 +1,23 @@
 import React from 'react'
+import { publicRequest } from '../../hooks/requestMethods';
+import useStore from '../../store';
 
 export default function RentalDetails(props) {
   const { make, model, color, seat, fuelType, pickUpDue, price } = props.car;
+  const { userInfo } = useStore()
+  const { _id } = userInfo
 
+  const handleReserveClick = () => {
+    publicRequest().post('/order/addneworder', { carId: props.car._id, userId: _id })
+        .then((res) => {
+         
+            window.alert('Your order has been placed')
+        })
+        .catch((err) => {
+            console.log(err.response.data)
+            window.alert(err.response.data)
+        });
+  };
 
   return (
     <>
@@ -30,7 +45,7 @@ export default function RentalDetails(props) {
         </div>
 
         <div className="flex justify-center py-4">
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mt-4 sm:mt-0 shadow-md">Reserve Now</button>
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mt-4 sm:mt-0 shadow-md" onClick={handleReserveClick}>Reserve Now</button>
         </div>
       </div>
     </>
