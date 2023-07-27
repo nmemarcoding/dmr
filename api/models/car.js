@@ -61,7 +61,7 @@ const CarSchema = new mongoose.Schema({
 
 CarSchema.methods.isAvailable = function() {
     const now = new Date();
-    const sameDay = this.reserveUntil.getDate() === now.getDate() && this.reserveUntil.getMonth() === now.getMonth() && this.reserveUntil.getFullYear() === now.getFullYear();
+    const sameDay = this.reserveUntil?.getDate() === now.getDate() && this.reserveUntil?.getMonth() === now.getMonth() && this.reserveUntil?.getFullYear() === now.getFullYear();
     return this.available && !this.rented && (this.reserveUntil === null || this.reserveUntil < now )&& !sameDay;
 };
 
