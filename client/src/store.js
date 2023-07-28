@@ -7,9 +7,9 @@ let store = (set) => ({
   addUserInfo: (userInfo) => {
     const today = new Date()
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-    set({ userInfo: { ...userInfo, date } })
+    set({ userInfo: { ...userInfo} })
   },
-  deleteUserInfo: () => set({ userInf: {} }),
+  deleteUserInfo: () => set({ userInfo: {} }),  
 })
 
 store = devtools(store)

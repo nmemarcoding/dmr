@@ -6,29 +6,12 @@ export default function CarInfoCard(props) {
     const{car} = props;
     const navigate = useNavigate()
 
-    const [userInfo,setUserInfo] = useState()
+    
 
-    useEffect(() => {
-        const userInfo = useStore.getState().userInfo
-        // check if userInfo date is less or equal to 3days then set userInfo 
-        const today = new Date()
-        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-        const userInfoDate = new Date(userInfo.date)
-        const diffTime = Math.abs(today - userInfoDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        if(diffDays <= 3){
-            setUserInfo(userInfo)
-        }
-    }, [])
+    
 
     const handleSelect = () => {
-        if (!userInfo) {
-            navigate('/login')
-        } else {
-            // mavigate to review page and send car info to review page
             navigate('/review', {state: {car: car}})
-
-        }
     }
 
     return (
