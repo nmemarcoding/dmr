@@ -62,5 +62,21 @@ router.get('/getorderdetails/:orderId', async(req, res) => {
     }
 });
 
+// Get all orders 
+router.get('/getallorders', async(req, res) => {
+    try {
+        const orders = await Order.find()
+            .populate('carId')
+            .populate({
+                path: 'userId',
+                select: '_id email firstName lastName phoneNumber'
+            });
+        res.status(200).json(orders);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+
 
 module.exports = router;
