@@ -9,6 +9,7 @@ import useStore from './store';
 import CarSearchPage from './pages/CarSearchPage/CarSearchPage';
 import ReviewPage from  './pages/ReviewPage/ReviewPage'
 import OrderDetailsPage from './pages/OrderDetailsPage/OrderDetailsPage';
+import ResrervedCars from './pages/resrervedCars/resrervedCars';
 
 function App() {
   const userInfo = useStore((state) => state?.userInfo)
@@ -27,6 +28,7 @@ function App() {
         <Route path="/orderdetails" element={userInfo._id ? <OrderDetailsPage/> : <LoginPage/>}/>
         {admin && <Route path="/admin" element={<AdminDashboard/>}/>}
         {admin && <Route path="/admin/addnewcar" element={<AddNewCar/>}/>}
+        {admin && <Route path="/admin/reservedcars" element={<ResrervedCars/>}/>}
         <Route path="*" element={<h1>404 Not Found</h1>}/>
       </Routes>
     </div>
