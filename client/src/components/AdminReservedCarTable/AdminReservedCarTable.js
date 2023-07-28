@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function AdminReservedCarTable({ orders, searchTerm, sortOption, handleSearch, handleSort, onPickUp }) {
   const filteredOrders = orders.filter((order) =>
-    order.customer.toLowerCase().includes(searchTerm.toLowerCase())
+    `${order.userId.firstName} ${order.userId.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   let currentOrders = filteredOrders;
@@ -10,12 +10,10 @@ export default function AdminReservedCarTable({ orders, searchTerm, sortOption, 
   if (sortOption === 'status') {
     currentOrders = filteredOrders.sort((a, b) => {
       const statusOrder = { Pending: 1, Delivered: 2, Cancelled: 3 };
-      return statusOrder[a.status] - statusOrder[b.status];
+      return statusOrder[a.carId.available] - statusOrder[b.carId.available];
     });
   } else if (sortOption === 'date') {
-    currentOrders = filteredOrders.sort((a, b) => new Date(a.date) - new Date(b.date));
-  } else {
-    currentOrders = filteredOrders.sort((a, b) => a.id - b.id);
+    currentOrders = filteredOrders.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime));
   }
 
   return (
@@ -34,43 +32,40 @@ export default function AdminReservedCarTable({ orders, searchTerm, sortOption, 
           value={sortOption}
           onChange={handleSort}
         >
-          <option value='id'>Sort by ID</option>
           <option value='status'>Sort by Status</option>
           <option value='date'>Sort by Date</option>
         </select>
       </div>
       <div className='w-full overflow-auto sm:hidden'>
         {currentOrders.map((order) => (
-          <div key={order.id} className='border-b border-gray-300 p-4'>
+          <div key={order._id} className='border-b border-gray-300 p-4'>
             <div className='mb-2'>
-              <strong>ID: </strong> {order.id}
+              <strong>License Plate: </strong> {order.carId.licensePlate}
             </div>
             <div className='mb-2'>
               <strong>Customer: </strong>
-              {order.customer}
+              {`${order.userId.firstName} ${order.userId.lastName}`}
             </div>
             <div className='mb-2'>
               <strong>Car: </strong>
-              {order.car}
+              {`${order.carId.make} ${order.carId.model}`}
             </div>
             <div className='mb-2'>
-              <strong>Date: </strong>
-              {order.date}
+              <strong>Pick Up Due: </strong>
+              {new Date(order.orderTime).toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric'})} Until 6 PM
             </div>
             <div className='mb-2'>
               <strong>Status: </strong>
-              {order.status}
+              {order.carId.available ? 'Available' : 'Not Available'}
             </div>
-            <div className='mb-2'>
-              {order.status === 'Pending' && (
-                <button
-                  className='px-2 py-1 rounded bg-blue-500 text-white'
-                  onClick={() => onPickUp(order.id)}
-                >
-                  Pick Up
-                </button>
-              )}
-            </div>
+            {order.carId.available && (
+              <button
+                className='px-2 py-1 rounded bg-blue-500 text-white'
+                onClick={() => onPickUp(order._id)}
+              >
+                Pick Up
+              </button>
+            )}
           </div>
         ))}
       </div>
@@ -78,27 +73,27 @@ export default function AdminReservedCarTable({ orders, searchTerm, sortOption, 
         <table className='table-auto w-full border border-gray-300 rounded-lg shadow-lg'>
           <thead>
             <tr className='bg-gray-200'>
-              <th className='px-2 sm:px-4 py-2'>ID</th>
+              <th className='px-2 sm:px-4 py-2'>License Plate</th>
               <th className='px-2 sm:px-4 py-2'>Customer</th>
               <th className='px-2 sm:px-4 py-2'>Car</th>
-              <th className='px-2 sm:px-4 py-2'>Date</th>
+              <th className='px-2 sm:px-4 py-2'>Pick Up Due</th>
               <th className='px-2 sm:px-4 py-2'>Status</th>
               <th className='px-2 sm:px-4 py-2'>Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentOrders.map((order) => (
-              <tr key={order.id} className='border-b border-gray-300'>
-                <td className='px-2 sm:px-4 py-2'>{order.id}</td>
-                <td className='px-2 sm:px-4 py-2'>{order.customer}</td>
-                <td className='px-2 sm:px-4 py-2'>{order.car}</td>
-                <td className='px-2 sm:px-4 py-2'>{order.date}</td>
-                <td className='px-2 sm:px-4 py-2'>{order.status}</td>
+              <tr key={order._id} className='border-b border-gray-300'>
+                <td className='px-2 sm:px-4 py-2'>{order.carId.licensePlate}</td>
+                <td className='px-2 sm:px-4 py-2'>{`${order.userId.firstName} ${order.userId.lastName}`}</td>
+                <td className='px-2 sm:px-4 py-2'>{`${order.carId.make} ${order.carId.model}`}</td>
+                <td className='px-2 sm:px-4 py-2'>{new Date(order.orderTime).toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric'})} Until 6 PM</td>
+                <td className='px-2 sm:px-4 py-2'>{order.carId.available ? 'Available' : 'Not Available'}</td>
                 <td className='px-2 sm:px-4 py-2'>
-                  {order.status === 'Pending' && (
+                  {order.carId.available && (
                     <button
                       className='px-2 py-1 rounded bg-blue-500 text-white'
-                      onClick={() => onPickUp(order.id)}
+                      onClick={() => onPickUp(order._id)}
                     >
                       Pick Up
                     </button>
