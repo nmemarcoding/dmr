@@ -44,4 +44,23 @@ router.post('/addneworder', async(req, res) => {
     }
 });
 
+// Get the order details with order Id
+router.get('/getorderdetails/:orderId', async(req, res) => {
+    // check if order ID is valid
+    if (!mongoose.Types.ObjectId.isValid(req.params.orderId)) {
+        return res.status(400).json("Invalid order ID");
+    }
+
+    try {
+        const order = await Order.findById(req.params.orderId).populate('carId')
+        if (!order) {
+            return res.status(400).json("Order not found");
+        }
+        res.status(200).json(order);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+
 module.exports = router;
