@@ -7,19 +7,7 @@ export default function ReservedCars() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOption, setSortOption] = useState('id'); 
     const [ordersDetails, setOrderDetails] = useState([]);
-    const orders = [
-      { id: 1, customer: 'John Doe', car: 'Toyota Camry', date: '2021-10-01', status: 'Pending' },
-      { id: 2, customer: 'Jane Smith', car: 'Honda Civic', date: '2021-10-02', status: 'Delivered' },
-      { id: 3, customer: 'Bob Johnson', car: 'Ford Mustang', date: '2021-10-03', status: 'Cancelled' },
-      { id: 4, customer: 'Alice Brown', car: 'Tesla Model S', date: '2021-10-04', status: 'Pending' },
-      { id: 5, customer: 'Charlie Green', car: 'Chevrolet Corvette', date: '2021-10-05', status: 'Delivered' },
-      { id: 6, customer: 'David Lee', car: 'BMW X5', date: '2021-10-06', status: 'Cancelled' },
-      { id: 7, customer: 'Emily Davis', car: 'Audi Q7', date: '2021-10-07', status: 'Pending' },
-      { id: 8, customer: 'Frank Wilson', car: 'Mercedes-Benz C-Class', date: '2021-10-08', status: 'Delivered' },
-      { id: 9, customer: 'Grace Taylor', car: 'Lexus ES', date: '2021-10-09', status: 'Cancelled' },
-      { id: 10, customer: 'Henry Martin', car: 'Porsche 911', date: '2021-10-10', status: 'Pending' },
-    ];
-
+  
     useEffect(() => {
         publicRequest().get('/order/getallorders')
         .then((res) => {
@@ -28,8 +16,6 @@ export default function ReservedCars() {
         .catch((err) => console.log(err))
     }, []);
 
-
-  
     const handleSearch = (event) => {
       setSearchTerm(event.target.value);
     };
@@ -37,17 +23,49 @@ export default function ReservedCars() {
     const handleSort = (event) => {
       setSortOption(event.target.value);
     };
+
+    const filteredOrders = ordersDetails.filter((order) =>
+      `${order.userId.firstName} ${order.userId.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    let currentOrders = filteredOrders;
+
+    if (sortOption === 'status') {
+      currentOrders = filteredOrders.sort((a, b) => {
+        const statusOrder = { Pending: 1, Delivered: 2, Cancelled: 3 };
+        return statusOrder[a.carId.available] - statusOrder[b.carId.available];
+      });
+    } else if (sortOption === 'date') {
+      currentOrders = filteredOrders.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime));
+    }
   
     return (
       <div className='w-full px-2 sm:px-4 lg:px-0'>
         <AdminNav />
-        <AdminReservedCarTable 
-          orders={ordersDetails} 
-          searchTerm={searchTerm} 
-          sortOption={sortOption} 
-          handleSearch={handleSearch} 
-          handleSort={handleSort} 
+        <h1 className='text-2xl sm:text-3xl font-bold mt-8 mb-4'>Reserved Cars</h1>
+        <input
+          type='text'
+          placeholder='Search by customer name'
+          className='border border-gray-300 rounded-lg px-4 py-2 mb-2 sm:mb-0 sm:mr-4 w-full sm:w-auto'
+          value={searchTerm}
+          onChange={handleSearch}
         />
+        <select
+          className='border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-auto mt-2 sm:mt-0'
+          value={sortOption}
+          onChange={handleSort}
+        >
+          <option value='status'>Sort by Status</option>
+          <option value='date'>Sort by Date</option>
+        </select>
+
+        {currentOrders.map((order) => (
+          <AdminReservedCarTable 
+            order={order} 
+            key={order._id}
+          />
+        ))}
       </div>
     );
-  }
+}
+
