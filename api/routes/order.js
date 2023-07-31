@@ -94,10 +94,7 @@ router.put('/updatepickuptime/:orderId', async(req, res) => {
         if (!order) {
             return res.status(400).json("Order not found");
         }
-        // check if user id in order is same as user id in request body
-        if (order.userId.toString() !== req.body.userId) {
-            return res.status(400).json("User ID does not match");
-        }
+        
 
         // // check if order is already picked up
         if (order.pickUpTime) {
