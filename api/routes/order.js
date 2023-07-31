@@ -77,6 +77,54 @@ router.get('/getallorders', async(req, res) => {
     }
 });
 
+// put rout to update pickUpTime in order and also add user id to car reservedBy
+router.put('/updatepickuptime/:orderId', async(req, res) => {
+    // check if order ID is valid
+    if (!mongoose.Types.ObjectId.isValid(req.params.orderId)) {
+        return res.status(400).json("Invalid order ID");
+    }
+
+    // check if user ID is valid
+    if (!mongoose.Types.ObjectId.isValid(req.body.userId)) {
+        return res.status(400).json("Invalid user ID");
+    }
+
+    try {
+        const order = await Order.findById(req.params.orderId);
+        if (!order) {
+            return res.status(400).json("Order not found");
+        }
+        // check if user id in order is same as user id in request body
+        if (order.userId.toString() !== req.body.userId) {
+            return res.status(400).json("User ID does not match");
+        }
+
+        // // check if order is already picked up
+        if (order.pickUpTime) {
+            return res.status(400).json("Order is already picked up");
+        }
+
+        // find the car and add user id to reservedBy
+        const car = await Car.findById(order.carId);
+        if (!car) {
+            return res.status(400).json("Car not found");
+        }
+        car.rentedBy = req.body.userId;
+        car.rented = true;
+        car.available = false;
+
+        // update the pickUpTime in order
+        order.pickUpTime = new Date();
+
+        // save the updated car and order
+        await car.save();
+        const savedOrder = await order.save();
+        res.status(200).json(savedOrder);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 
 
 module.exports = router;
