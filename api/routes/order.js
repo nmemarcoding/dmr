@@ -122,6 +122,49 @@ router.put('/updatepickuptime/:orderId', async(req, res) => {
     }
 });
 
+// put rout to update returnTime in order and also remove user id from car reservedBy and make returnd true and available true
+router.put('/updatereturntime/:orderId', async(req, res) => {
+    // check if order ID is valid
+    if (!mongoose.Types.ObjectId.isValid(req.params.orderId)) {
+        return res.status(400).json("Invalid order ID");
+    }
+
+    try {
+        const order = await Order.findById(req.params.orderId);
+        if (!order) {
+            return res.status(400).json("Order not found");
+        }
+
+        // check if order is already returned
+        if (order.returnTime) {
+
+            return res.status(400).json("Order is already returned");
+        }
+
+        // find the car and remove user id from reservedBy
+        const car = await Car.findById(order.carId);
+        if (!car) {
+            return res.status(400).json("Car not found");
+        }
+        car.rentedBy = null;
+        car.rented = true;
+        car.available = true;
+        car.reserveUntil = null;
+
+        // update the returnTime in order
+        order.returnTime = new Date();
+
+        // save the updated car and order
+        await car.save();
+        const savedOrder = await order.save();
+        res.status(200).json(savedOrder);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+
+
 
 
 module.exports = router;

@@ -15,6 +15,9 @@ router.post('/addnewcar', async(req, res) => {
 );
 
 // get cars by search query on searxh field 
+
+
+
 router.get('/search', async (req, res) => {
     try {
         const searchTerm = req.query.search;
@@ -35,6 +38,8 @@ router.get('/search', async (req, res) => {
         console.log(err);
     }
 });
+
+
 
 
 
