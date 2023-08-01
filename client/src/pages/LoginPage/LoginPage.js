@@ -25,10 +25,13 @@ export default function LoginPage() {
             navigate('/admin')
         }
         else {
-            navigate(-1)
+            navigate('/')
         }
       })
-      .catch((err) => console.log(err))
+      
+      .catch((err) => {console.log(err)
+        window.alert('Invalid email or password')
+      })
   }
 
   return (

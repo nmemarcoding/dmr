@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import AdminNav from '../../components/AdminNav/AdminNav';
 import AdminReservedCarTable from '../../components/AdminReservedCarTable/AdminReservedCarTable';
 import { publicRequest } from '../../hooks/requestMethods'
+import useStore from '../../store';
 
 export default function ReservedCars() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOption, setSortOption] = useState('id'); 
     const [ordersDetails, setOrderDetails] = useState([]);
-  
+    const userInfo = useStore((state) => state?.userInfo)
     useEffect(() => {
         publicRequest().get('/order/getallorders')
         .then((res) => {
@@ -25,7 +26,7 @@ export default function ReservedCars() {
     };
 
     const filteredOrders = ordersDetails.filter((order) =>
-      `${order.userId.firstName} ${order.userId.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+      `${order.userId?.firstName} ${order.userId?.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     let currentOrders = filteredOrders;
@@ -38,6 +39,28 @@ export default function ReservedCars() {
     } else if (sortOption === 'date') {
       currentOrders = filteredOrders.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime));
     }
+
+    const handelPickUp = (id) => {
+      publicRequest().put(`/order/updatepickuptime/${id}`, {
+        userId: userInfo._id,
+      })
+      .then((res) => {
+        console.log(res.data);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err))
+    };
+
+    const handelReturn = (id) => {
+      publicRequest().put(`/order/updatereturntime/${id}`)
+      .then((res) => {
+        window,alert('Car returned successfully');
+        window.location.reload();
+      })
+      .catch((err) => console.log(err))
+    };
+
+
   
     return (
       <div className='w-full px-2 sm:px-4 lg:px-0'>
@@ -63,6 +86,8 @@ export default function ReservedCars() {
           <AdminReservedCarTable 
             order={order} 
             key={order._id}
+            handelPickUp={handelPickUp}
+            handelReturn={handelReturn}
           />
         ))}
       </div>
