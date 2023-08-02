@@ -50,7 +50,7 @@ export default function OrderHistory() {
   };
 
   return (
-    <div className="w-screen bg-gray-100">
+    <div className="w-screen">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-semibold mb-6">Order History</h1>
@@ -60,12 +60,12 @@ export default function OrderHistory() {
             {/* Table headers */}
             <thead>
               <tr>
-                <th className="px-4 py-2">Car</th>
-                <th className="px-4 py-2">License Plate</th>
-                <th className="px-4 py-2">Order Time</th>
-                <th className="px-4 py-2">Pickup Time</th>
-                <th className="px-4 py-2">Return Time</th>
-                <th className="px-4 py-2">Status</th>
+                <th className="px-4 py-2 border">Car</th>
+                <th className="px-4 py-2 border">License Plate</th>
+                <th className="px-4 py-2 border">Order Time</th>
+                <th className="px-4 py-2 border">Pickup Time</th>
+                <th className="px-4 py-2 border">Return Time</th>
+                <th className="px-4 py-2 border">Status</th>
               </tr>
             </thead>
             {/* Table body */}
@@ -123,22 +123,22 @@ export default function OrderHistory() {
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="bg-white shadow-md rounded-lg overflow-hidden"
+                className="bg-white shadow-md rounded-lg overflow-hidden border" // Add "border" class here
               >
                 {/* Card content */}
-                <div className="p-4">
+                <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Car</div>
                   <div>{`${order.carId.make} ${order.carId.model}`}</div>
                 </div>
-                <div className="p-4">
+                <div className="p-4 border-b">
                   <div className="font-semibold mb-2">License Plate</div>
                   <div>{order.carId.licensePlate}</div>
                 </div>
-                <div className="p-4">
+                <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Order Time</div>
                   <div>{formatDate(order.orderTime)}</div>
                 </div>
-                <div className="p-4">
+                <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Pickup Time</div>
                   <div>
                     {order.pickUpTime ? (
@@ -153,7 +153,7 @@ export default function OrderHistory() {
                     )}
                   </div>
                 </div>
-                <div className="p-4">
+                <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Return Time</div>
                   <div>
                     {order.returnTime ? (

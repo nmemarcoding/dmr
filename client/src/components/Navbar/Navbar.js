@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useStore from '../../store';
 
 export default function Navbar() {
@@ -25,9 +24,13 @@ export default function Navbar() {
     navigate('/');
   };
 
+  const handleDMRClick = () => {
+    navigate('/');
+  };
+
   return (
-    <div className="flex flex-col sm:flex-row justify-between sm:items-center bg-gray-200 p-4 shadow-md border-b-4 border-yellow-400">
-      <div className="flex items-center">
+    <div className="flex flex-col sm:flex-row justify-between sm:items-center bg-white shadow-md p-4 border-b-4 border-yellow-400">
+      <div className="flex items-center cursor-pointer" onClick={handleDMRClick}>
         <h1 className="text-2xl font-bold text-gray-900 mb-4 sm:mb-0">DMR</h1>
         <button className="block sm:hidden ml-auto" onClick={() => setShowMenu(!showMenu)}>
           <svg className="h-6 w-6 fill-current text-gray-900" viewBox="0 0 24 24">
@@ -41,7 +44,7 @@ export default function Navbar() {
       </div>
       <form onSubmit={handleSearchSubmit}>
         <input
-          className="border-none rounded-md p-2 text-base w-full sm:w-80 ml-0 sm:ml-4 shadow-md bg-white text-gray-900 placeholder-gray-400 mb-4 sm:mb-0"
+          className="border border-yellow-400 rounded-md p-2 text-base w-full sm:w-80 ml-0 sm:ml-4 shadow-md bg-white text-gray-900 placeholder-gray-400 mb-4 sm:mb-0"
           type="text"
           placeholder="Search"
           value={searchInput}
@@ -53,12 +56,12 @@ export default function Navbar() {
           <>
             <Link to="/orderhistory" className="relative ml-0 sm:ml-4 cursor-pointer">
               <div className="order_history_btn mb-4">
-                <span className="text-base font-bold text-white p-2 rounded-md bg-gray-900 shadow-md">Order History</span>
+                <span className="text-base font-bold text-gray-900 p-2 rounded-md border border-yellow-400 shadow-md">Order History</span>
               </div>
             </Link>
             <Link to="/" className="relative ml-0 sm:ml-4 cursor-pointer" onClick={handleLogoutClick}>
               <div className="logout_btn mb-4">
-                <span className="text-base font-bold text-white p-2 rounded-md bg-gray-900 shadow-md">Logout</span>
+                <span className="text-base font-bold text-gray-900 p-2 rounded-md border border-yellow-400 shadow-md">Logout</span>
               </div>
             </Link>
           </>
@@ -66,12 +69,12 @@ export default function Navbar() {
           <>
             <Link to="/login" className="relative ml-0 sm:ml-4 cursor-pointer">
               <div className="login_btn mb-4">
-                <span className="text-base font-bold text-white p-2 rounded-md bg-gray-900 shadow-md">Login</span>
+                <span className="text-base font-bold text-gray-900 p-2 rounded-md border border-yellow-400 shadow-md">Login</span>
               </div>
             </Link>
             <Link to="/signup" className="relative cursor-pointer mb-4 sm:ml-4">
               <div className="signup_btn">
-                <span className="text-base font-bold text-white p-2 rounded-md bg-gray-900 shadow-md">Signup</span>
+                <span className="text-base font-bold text-gray-900 p-2 rounded-md border border-yellow-400 shadow-md">Signup</span>
               </div>
             </Link>
           </>
