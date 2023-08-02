@@ -163,6 +163,27 @@ router.put('/updatereturntime/:orderId', async(req, res) => {
     }
 });
 
+// get route all user order from user id in query
+router.get('/getuserorders', async(req, res) => {
+    // check if user ID is valid
+    if (!mongoose.Types.ObjectId.isValid(req.query.userid)) {
+        return res.status(400).json("Invalid user ID");
+    }
+   
+    try {
+        const orders = await Order.find({ userId: req.query.userid })
+            .populate('carId')
+            .populate({
+                path: 'userId',
+                select: '_id email firstName lastName phoneNumber'
+            });
+        res.status(200).json(orders);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+
 
 
 
