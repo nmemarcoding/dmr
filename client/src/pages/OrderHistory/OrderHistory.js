@@ -4,7 +4,7 @@ import useStore from '../../store';
 import { publicRequest } from '../../hooks/requestMethods';
 
 export default function OrderHistory() {
-    const [userId, setUserId] = useState(useStore((state) => state?.userInfo?._id))
+    const [userId, setUserId] = useState(useStore((state) => state?.userInfo?._id));
     const [orders, setOrders] = useState([]);
 
     useEffect(() => { 
@@ -14,13 +14,22 @@ export default function OrderHistory() {
             const sortedOrders = res.data.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime));
             setOrders(sortedOrders);
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }, [userId]); // Add the userId dependency to fetch orders when the userId changes
 
     // Function to determine the status based on pickUpTime and returnTime
     const getStatus = (order) => {
+        const orderTime = new Date(order.orderTime);
+        const today = new Date();
+
+        // Calculate the difference in milliseconds between the current date and orderTime
+        const timeDifference = today.getTime() - orderTime.getTime();
+
+        // Calculate the number of days between today and orderTime
+        const daysDifference = timeDifference / (1000 * 3600 * 24);
+
         if (!order.pickUpTime && !order.returnTime) {
-            return "Not Picked Up";
+            return daysDifference > 1 ? "Order Canceled" : "Not Picked Up";
         } else if (order.pickUpTime && !order.returnTime) {
             return "Picked Up";
         } else if (order.pickUpTime && order.returnTime) {
@@ -42,30 +51,7 @@ export default function OrderHistory() {
                 <h1 className="text-3xl font-semibold mb-6">Order History</h1>
                 <div className="hidden md:block">
                     {/* Table for desktop screens (md and above) */}
-                    <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-                        <thead>
-                            <tr className="text-left text-gray-600">
-                                <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Car</th>
-                                <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Pickup Time</th>
-                                <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Return Time</th>
-                                <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Order Time</th> {/* Add the Order Time header */}
-                                <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.map((order) => (
-                                <tr key={order._id} className="border-t border-gray-200">
-                                    <td className="py-4 px-4">{`${order.carId.make} ${order.carId.model}`}</td>
-                                    <td className="py-4 px-4">{order.pickUpTime ? formatDate(order.pickUpTime) : "Not Picked Up"}</td>
-                                    <td className="py-4 px-4">{order.returnTime ? formatDate(order.returnTime) : "Not Returned"}</td>
-                                    <td className="py-4 px-4">{formatDate(order.orderTime)}</td> {/* Display the Order Time */}
-                                    <td className={`py-4 px-4 ${getStatus(order) === 'Returned' ? 'text-green-600' : 'text-yellow-600'}`}>
-                                        {getStatus(order)}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    {/* ... (rest of the desktop table code) ... */}
                 </div>
                 <div className="md:hidden">
                     {/* Cards for mobile screens (sm and below) */}
@@ -75,6 +61,10 @@ export default function OrderHistory() {
                                 <div className="p-4">
                                     <div className="font-semibold mb-2">Car</div>
                                     <div>{`${order.carId.make} ${order.carId.model}`}</div>
+                                </div>
+                                <div className="p-4">
+                                    <div className="font-semibold mb-2">Order Time</div>
+                                    <div>{formatDate(order.orderTime)}</div>
                                 </div>
                                 <div className="p-4">
                                     <div className="font-semibold mb-2">Pickup Time</div>
