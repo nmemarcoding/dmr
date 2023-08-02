@@ -48,6 +48,7 @@ export default function OrderHistory() {
                                 <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Car</th>
                                 <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Pickup Time</th>
                                 <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Return Time</th>
+                                <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Order Time</th> {/* Add the Order Time header */}
                                 <th className="py-3 px-4 bg-gray-200 font-semibold uppercase">Status</th>
                             </tr>
                         </thead>
@@ -57,6 +58,7 @@ export default function OrderHistory() {
                                     <td className="py-4 px-4">{`${order.carId.make} ${order.carId.model}`}</td>
                                     <td className="py-4 px-4">{order.pickUpTime ? formatDate(order.pickUpTime) : "Not Picked Up"}</td>
                                     <td className="py-4 px-4">{order.returnTime ? formatDate(order.returnTime) : "Not Returned"}</td>
+                                    <td className="py-4 px-4">{formatDate(order.orderTime)}</td> {/* Display the Order Time */}
                                     <td className={`py-4 px-4 ${getStatus(order) === 'Returned' ? 'text-green-600' : 'text-yellow-600'}`}>
                                         {getStatus(order)}
                                     </td>
@@ -76,11 +78,27 @@ export default function OrderHistory() {
                                 </div>
                                 <div className="p-4">
                                     <div className="font-semibold mb-2">Pickup Time</div>
-                                    <div>{order.pickUpTime ? formatDate(order.pickUpTime) : "Not Picked Up"}</div>
+                                    <div>
+                                        {order.pickUpTime ? (
+                                            <span>
+                                                {formatDate(order.pickUpTime)} {getStatus(order) === 'Returned' && <span className="text-green-600 ml-1">✓</span>}
+                                            </span>
+                                        ) : (
+                                            "Not Picked Up"
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="p-4">
                                     <div className="font-semibold mb-2">Return Time</div>
-                                    <div>{order.returnTime ? formatDate(order.returnTime) : "Not Returned"}</div>
+                                    <div>
+                                        {order.returnTime ? (
+                                            <span>
+                                                {formatDate(order.returnTime)} {getStatus(order) === 'Returned' && <span className="text-green-600 ml-1">✓</span>}
+                                            </span>
+                                        ) : (
+                                            "Not Returned"
+                                        )}
+                                    </div>
                                 </div>
                                 <div className={`px-4 py-3 ${getStatus(order) === 'Returned' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-gray-800'}`}>
                                     {getStatus(order)}
