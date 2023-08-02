@@ -10,6 +10,7 @@ import CarSearchPage from './pages/CarSearchPage/CarSearchPage';
 import ReviewPage from  './pages/ReviewPage/ReviewPage'
 import OrderDetailsPage from './pages/OrderDetailsPage/OrderDetailsPage';
 import ResrervedCars from './pages/resrervedCars/resrervedCars';
+import OrderHistory from './pages/OrderHistory/OrderHistory';
 
 function App() {
   const userInfo = useStore((state) => state?.userInfo)
@@ -26,6 +27,7 @@ function App() {
         <Route path="/search" element={<CarSearchPage/>}/>
         <Route path="/review" element={userInfo._id ? <ReviewPage/> : <LoginPage/>}/>
         <Route path="/orderdetails" element={userInfo._id ? <OrderDetailsPage/> : <LoginPage/>}/>
+        <Route path="/orderhistory" element={userInfo._id ? <OrderHistory/> : <LoginPage/>}/>
         {admin && <Route path="/admin" element={<AdminDashboard/>}/>}
         {admin && <Route path="/admin/addnewcar" element={<AddNewCar/>}/>}
         {admin && <Route path="/admin/reservedcars" element={<ResrervedCars/>}/>}
