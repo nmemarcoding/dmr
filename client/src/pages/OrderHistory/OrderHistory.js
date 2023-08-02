@@ -30,6 +30,11 @@ export default function OrderHistory() {
         }
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        return new Date(dateString).toLocaleString(undefined, options);
+    };
+
     return (
         <div className="w-screen bg-gray-100">
             <Navbar />
@@ -50,8 +55,8 @@ export default function OrderHistory() {
                             {orders.map((order) => (
                                 <tr key={order._id} className="border-t border-gray-200">
                                     <td className="py-4 px-4">{`${order.carId.make} ${order.carId.model}`}</td>
-                                    <td className="py-4 px-4">{order.pickUpTime || "Not Picked Up"}</td>
-                                    <td className="py-4 px-4">{order.returnTime || "Not Returned"}</td>
+                                    <td className="py-4 px-4">{order.pickUpTime ? formatDate(order.pickUpTime) : "Not Picked Up"}</td>
+                                    <td className="py-4 px-4">{order.returnTime ? formatDate(order.returnTime) : "Not Returned"}</td>
                                     <td className={`py-4 px-4 ${getStatus(order) === 'Returned' ? 'text-green-600' : 'text-yellow-600'}`}>
                                         {getStatus(order)}
                                     </td>
@@ -71,11 +76,11 @@ export default function OrderHistory() {
                                 </div>
                                 <div className="p-4">
                                     <div className="font-semibold mb-2">Pickup Time</div>
-                                    <div>{order.pickUpTime || "Not Picked Up"}</div>
+                                    <div>{order.pickUpTime ? formatDate(order.pickUpTime) : "Not Picked Up"}</div>
                                 </div>
                                 <div className="p-4">
                                     <div className="font-semibold mb-2">Return Time</div>
-                                    <div>{order.returnTime || "Not Returned"}</div>
+                                    <div>{order.returnTime ? formatDate(order.returnTime) : "Not Returned"}</div>
                                 </div>
                                 <div className={`px-4 py-3 ${getStatus(order) === 'Returned' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-gray-800'}`}>
                                     {getStatus(order)}
