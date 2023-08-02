@@ -4,7 +4,6 @@ import useStore from '../../store';
 import { publicRequest } from '../../hooks/requestMethods';
 
 export default function OrderHistory() {
-    const userInfo = useStore((state) => state?.userInfo);
     const [userId, setUserId] = useState(useStore((state) => state?.userInfo?._id))
     const [orders, setOrders] = useState([]);
 

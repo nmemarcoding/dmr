@@ -1,17 +1,24 @@
 import React from 'react'
 import { publicRequest } from '../../hooks/requestMethods';
 import useStore from '../../store';
+import { useNavigate } from 'react-router-dom';
 
 export default function RentalDetails(props) {
   const { make, model, color, seat, fuelType, pickUpDue, price } = props.car;
   const { userInfo } = useStore()
+  console.log(userInfo._id)
   const { _id } = userInfo
+  const navigate = useNavigate()
 
   const handleReserveClick = () => {
     publicRequest().post('/order/addneworder', { carId: props.car._id, userId: _id })
         .then((res) => {
          
             window.alert('Your order has been placed')
+            if (userInfo._id) {
+              navigate('/orderhistory')
+            }
+
         })
         .catch((err) => {
             console.log(err.response.data)
