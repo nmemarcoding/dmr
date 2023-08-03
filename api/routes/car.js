@@ -62,6 +62,17 @@ router.get('/getallcarstotal', async(req, res) => {
     }
 });
 
+// get all cars
+router.get('/getallcars', async(req, res) => {
+    try {
+        const cars = await Car.find();
+        res.status(200).json(cars);
+    } catch (err) {
+        res.status(500).json(err);
+        console.log(err);
+    }
+});
+
 
 
 
