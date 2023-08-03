@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminNav from '../../components/AdminNav/AdminNav';
+import { publicRequest } from '../../hooks/requestMethods';
 
 const AdminDashboard = () => {
-  // Placeholder data (you can replace this with actual data from your backend)
-  const data = {
-    totalCars: 100,
-    availableCars: 70,
-    rentedOutCars: 25,
-    outOfCompanyCars: 5,
-    suvCars: 30,
-    sedanCars: 40,
-    vanCars: 20,
-    totalRevenue: 5000, // In dollars
-    activeBookings: 15,
-  };
+  const [carDetails, setCarDetails] = useState({
+    totalCars: 0,
+    availableCars: 0,
+    rentedCars: 0,
+    gassCarAvailable: 0,
+    electricCarAvailable: 0,
+    gassCarRented: 0,
+    electricCarRented: 0,
+    hybridCarAvailable: 0,
+    hybridCarRented: 0
+  });
+
+  useEffect(() => {
+    publicRequest()
+      .get('/car/getallcarstotal')
+      .then((res) => {
+        setCarDetails(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="w-screen">
@@ -23,55 +32,55 @@ const AdminDashboard = () => {
         {/* Total Cars */}
         <div className="bg-blue-500 p-4 rounded-lg">
           <h2 className="text-white text-lg mb-2">Total Cars</h2>
-          <p className="text-white text-4xl font-bold">{data.totalCars}</p>
+          <p className="text-white text-4xl font-bold">{carDetails.totalCars}</p>
         </div>
 
         {/* Available Cars */}
         <div className="bg-green-500 p-4 rounded-lg">
           <h2 className="text-white text-lg mb-2">Available Cars</h2>
-          <p className="text-white text-4xl font-bold">{data.availableCars}</p>
+          <p className="text-white text-4xl font-bold">{carDetails.availableCars}</p>
         </div>
 
-        {/* Rented Out Cars */}
+        {/* Rented Cars */}
         <div className="bg-yellow-500 p-4 rounded-lg">
-          <h2 className="text-white text-lg mb-2">Rented Out Cars</h2>
-          <p className="text-white text-4xl font-bold">{data.rentedOutCars}</p>
+          <h2 className="text-white text-lg mb-2">Rented Cars</h2>
+          <p className="text-white text-4xl font-bold">{carDetails.rentedCars}</p>
         </div>
 
-        {/* Out of Company Cars */}
-        <div className="bg-red-500 p-4 rounded-lg">
-          <h2 className="text-white text-lg mb-2">Out of Company Cars</h2>
-          <p className="text-white text-4xl font-bold">{data.outOfCompanyCars}</p>
-        </div>
-
-        {/* SUV Cars */}
+        {/* Gass Cars Available */}
         <div className="bg-indigo-500 p-4 rounded-lg">
-          <h2 className="text-white text-lg mb-2">SUV Cars</h2>
-          <p className="text-white text-4xl font-bold">{data.suvCars}</p>
+          <h2 className="text-white text-lg mb-2">Gas Cars Available</h2>
+          <p className="text-white text-4xl font-bold">{carDetails.gassCarAvailable}</p>
         </div>
 
-        {/* Sedan Cars */}
+        {/* Electric Cars Available */}
         <div className="bg-purple-500 p-4 rounded-lg">
-          <h2 className="text-white text-lg mb-2">Sedan Cars</h2>
-          <p className="text-white text-4xl font-bold">{data.sedanCars}</p>
+          <h2 className="text-white text-lg mb-2">Electric Cars Available</h2>
+          <p className="text-white text-4xl font-bold">{carDetails.electricCarAvailable}</p>
         </div>
 
-        {/* Van Cars */}
+        {/* Gass Cars Rented */}
         <div className="bg-pink-500 p-4 rounded-lg">
-          <h2 className="text-white text-lg mb-2">Van Cars</h2>
-          <p className="text-white text-4xl font-bold">{data.vanCars}</p>
+          <h2 className="text-white text-lg mb-2">Gas Cars Rented</h2>
+          <p className="text-white text-4xl font-bold">{carDetails.gassCarRented}</p>
         </div>
 
-        {/* Total Revenue */}
+        {/* Electric Cars Rented */}
         <div className="bg-yellow-400 p-4 rounded-lg">
-          <h2 className="text-white text-lg mb-2">Total Revenue</h2>
-          <p className="text-white text-4xl font-bold">${data.totalRevenue}</p>
+          <h2 className="text-white text-lg mb-2">Electric Cars Rented</h2>
+          <p className="text-white text-4xl font-bold">{carDetails.electricCarRented}</p>
         </div>
 
-        {/* Active Bookings */}
+        {/* Hybrid Cars Available */}
         <div className="bg-green-400 p-4 rounded-lg">
-          <h2 className="text-white text-lg mb-2">Active Bookings</h2>
-          <p className="text-white text-4xl font-bold">{data.activeBookings}</p>
+          <h2 className="text-white text-lg mb-2">Hybrid Cars Available</h2>
+          <p className="text-white text-4xl font-bold">{carDetails.hybridCarAvailable}</p>
+        </div>
+
+        {/* Hybrid Cars Rented */}
+        <div className="bg-blue-400 p-4 rounded-lg">
+          <h2 className="text-white text-lg mb-2">Hybrid Cars Rented</h2>
+          <p className="text-white text-4xl font-bold">{carDetails.hybridCarRented}</p>
         </div>
       </div>
     </div>

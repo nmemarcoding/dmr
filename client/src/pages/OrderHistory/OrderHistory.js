@@ -8,17 +8,22 @@ export default function OrderHistory() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    publicRequest()
-      .get(`/order/getallorders?userid=${userId}`)
-      .then((res) => {
-        // Assuming the API response is an array of orders sorted by orderTime (newest first)
-        const sortedOrders = res.data.sort(
-          (a, b) => new Date(b.orderTime) - new Date(a.orderTime)
-        );
-        setOrders(sortedOrders);
-      })
-      .catch((err) => console.log(err));
-  }, [userId]); // Add the userId dependency to fetch orders when the userId changes
+    // Check if userId is not empty or falsy before making the API request
+    if (userId) {
+      
+      publicRequest()
+        .get(`/order/getuserorders?userid=${userId}`)
+        .then((res) => {
+          // Assuming the API response is an array of orders sorted by orderTime (newest first)
+          const sortedOrders = res.data.sort(
+            (a, b) => new Date(b.orderTime) - new Date(a.orderTime)
+          );
+          setOrders(sortedOrders);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [userId]);
+   // Add the userId dependency to fetch orders when the userId changes
 
   // Function to determine the status based on pickUpTime and returnTime
   const getStatus = (order) => {
