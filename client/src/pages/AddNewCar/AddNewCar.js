@@ -13,6 +13,7 @@ export default function AddNewCar() {
     color: '',
     image: '',
     price: '',
+    licensePlateNumber: '',
   });
 
   const availableCars = [
@@ -187,6 +188,14 @@ export default function AddNewCar() {
               placeholder="Car Image"
               name="image"
               value={carData.image}
+              onChange={handleInputChange}
+            />
+            <input
+              className="w-full md:w-1/2 h-10 rounded-md shadow-md mb-4 px-2"
+              type="text"
+              placeholder="License Plate Number"
+              name="licensePlateNumber"
+              value={carData.licensePlateNumber}
               onChange={handleInputChange}
             />
             <input
