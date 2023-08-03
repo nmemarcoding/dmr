@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const MobileMenu = () => {
+const AdminNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -63,6 +63,14 @@ const MobileMenu = () => {
                 Add New Car
               </Link>
             </li>
+            <li>
+              <Link
+                to="/admin/cars"
+                className="text-black hover:text-gray-200 px-4 py-2 rounded-md"
+              >
+                Cars
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
@@ -96,6 +104,15 @@ const MobileMenu = () => {
                 Add New Car
               </Link>
             </li>
+            <li className="mb-4 shadow-md px-4">
+              <Link
+                to="/admin/cars"
+                className="text-black hover:text-gray-200 py-2 rounded-md"
+                onClick={toggleMenu}
+              >
+                Cars
+              </Link>
+            </li>
           </ul>
         </div>
       )}
@@ -103,4 +120,4 @@ const MobileMenu = () => {
   );
 };
 
-export default MobileMenu;
+export default AdminNav;
