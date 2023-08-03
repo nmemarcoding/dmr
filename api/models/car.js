@@ -56,6 +56,10 @@ const CarSchema = new mongoose.Schema({
     },
     search: {
         type: String,
+    },
+    licensePlateNumber: {
+        type: String,
+        required: true,
     }
 }, {timestamps: true});
 
