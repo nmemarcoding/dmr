@@ -22,7 +22,7 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
       <div className='w-full overflow-auto sm:hidden'>
         <div className='border-b border-gray-300 p-4'>
           <div className='mb-2'>
-            <strong className='font-bold'>License Plate: </strong> {order.carId.licensePlate}
+            <strong className='font-bold'>License plate: </strong> {order.carId.licensePlateNumber}
           </div>
           <div className='mb-2'>
             <strong className='font-bold'>Customer: </strong>
@@ -67,7 +67,7 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
         <table className='table-auto w-full border border-gray-300 rounded-lg shadow-lg'>
           <thead>
             <tr className='bg-gray-200'>
-              <th className='px-2 sm:px-4 py-2'>License Plate</th>
+              <th className='px-2 sm:px-4 py-2'>License plate</th>
               <th className='px-2 sm:px-4 py-2'>Customer</th>
               <th className='px-2 sm:px-4 py-2'>Car</th>
               <th className='px-2 sm:px-4 py-2'>Pick Up Due</th>
@@ -77,7 +77,7 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
           </thead>
           <tbody>
             <tr className='border-b border-gray-300'>
-              <td className='px-2 sm:px-4 py-2'>{order.carId.licensePlate}</td>
+              <td className='px-2 sm:px-4 py-2'>{order.carId.licensePlateNumber}</td>
               <td className='px-2 sm:px-4 py-2'>{`${order.userId?.firstName} ${order.userId?.lastName}`}</td>
               <td className='px-2 sm:px-4 py-2'>{`${order.carId.make} ${order.carId.model}`}</td>
               <td className='px-2 sm:px-4 py-2'>{new Date(order.orderTime).toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric'})} Until 6 PM</td>
