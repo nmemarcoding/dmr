@@ -39,6 +39,31 @@ router.get('/search', async (req, res) => {
     }
 });
 
+// get all cars total count available and rented
+router.get('/getallcarstotal', async(req, res) => {
+    try {
+        const cars = await Car.find();
+        const totalCars = cars.length;
+        const availableCars = cars.filter(car => car.isAvailable()).length;
+        const rentedCars = totalCars - availableCars;
+        const gassCarAvailable = cars.filter(car => car.isAvailable() && car.fuelType === "Gas").length;
+        const electricCarAvailable = cars.filter(car => car.isAvailable() && car.fuelType === "Electric").length;
+        const hybridCarAvailable = cars.filter(car => car.isAvailable() && car.fuelType === "Hybrid").length;
+        const gassCarRented = cars.filter(car => !car.isAvailable() && car.fuelType === "Gas").length;
+        const electricCarRented = cars.filter(car => !car.isAvailable() && car.fuelType === "Electric").length;
+        const hybridCarRented = cars.filter(car => !car.isAvailable() && car.fuelType === "Hybrid").length;
+
+
+        res.status(200).json({ totalCars, availableCars, rentedCars, gassCarAvailable, electricCarAvailable, gassCarRented, electricCarRented, hybridCarAvailable, hybridCarRented });
+
+    } catch (err) {
+        res.status(500).json(err);
+        console.log(err);
+    }
+});
+
+
+
 
 
 
