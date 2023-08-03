@@ -61,7 +61,7 @@ export default function OrderHistory() {
             <thead>
               <tr>
                 <th className="px-4 py-2 border">Car</th>
-                <th className="px-4 py-2 border">License Plate</th>
+                <th className="px-4 py-2 border">License Plate Number</th>
                 <th className="px-4 py-2 border">Order Time</th>
                 <th className="px-4 py-2 border">Pickup Time</th>
                 <th className="px-4 py-2 border">Return Time</th>
@@ -75,7 +75,7 @@ export default function OrderHistory() {
                   <td className="border px-4 py-2">
                     {`${order.carId.make} ${order.carId.model}`}
                   </td>
-                  <td className="border px-4 py-2">{order.carId.licensePlate}</td>
+                  <td className="border px-4 py-2">{order.carId.licensePlateNumber}</td>
                   <td className="border px-4 py-2">
                     {formatDate(order.orderTime)}
                   </td>
@@ -131,8 +131,8 @@ export default function OrderHistory() {
                   <div>{`${order.carId.make} ${order.carId.model}`}</div>
                 </div>
                 <div className="p-4 border-b">
-                  <div className="font-semibold mb-2">License Plate</div>
-                  <div>{order.carId.licensePlate}</div>
+                  <div className="font-semibold mb-2">License Plate Number</div>
+                  <div>{order.carId.licensePlateNumber}</div>
                 </div>
                 <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Order Time</div>
