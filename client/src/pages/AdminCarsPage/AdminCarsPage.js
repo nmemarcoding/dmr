@@ -21,7 +21,9 @@ export default function AdminCarsPage() {
 
   const filteredCars = cars.filter((car) => {
     return (
-      `${car.make} ${car.model}${car.type}${car.fuelType} ${car.year}${car.color}${car.price}${car.licensePlateNumber} ${car.available}  `.toLowerCase().includes(searchTerm.toLowerCase())
+      `${car.make} ${car.model}${car.type}${car.fuelType} ${car.year}${car.color}${car.price}${car.licensePlateNumber} ${car.available}  `
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
     );
   });
 
@@ -54,6 +56,9 @@ export default function AdminCarsPage() {
                 <p className="text-gray-700">Color: {car.color}</p>
                 <p className="text-gray-700">Price: {car.price}</p>
                 <p className="text-gray-700">License Plate: {car.licensePlateNumber}</p>
+                <p className={`text-${car.available ? 'green' : 'red'}-700 font-semibold`}>
+                 {car.available ? 'Available' : 'Not Available'}
+                </p>
               </div>
             </div>
           ))}
@@ -62,3 +67,9 @@ export default function AdminCarsPage() {
     </div>
   );
 }
+
+
+
+
+
+
