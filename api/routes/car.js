@@ -66,7 +66,16 @@ router.get('/getallcarstotal', async(req, res) => {
 router.get('/getallcars', async(req, res) => {
     try {
         const cars = await Car.find();
-        res.status(200).json(cars);
+        // add car avalibility to each car
+        const carsWithAvailability = cars.map(car => {
+            return {
+                ...car._doc,
+                available: car.isAvailable()
+            }
+        });
+        res.status(200).json(carsWithAvailability);
+
+        
     } catch (err) {
         res.status(500).json(err);
         console.log(err);
