@@ -5,40 +5,49 @@ import { publicRequest } from '../../hooks/requestMethods';
 export default function AdminCarsPage() {
   const [cars, setCars] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     publicRequest()
       .get('/car/getallcars')
       .then((res) => {
         setCars(res.data);
+        setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   }, []);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredCars = cars.filter((car) => {
-    return (
-      `${car.make} ${car.model}${car.type}${car.fuelType} ${car.year}${car.color}${car.price}${car.licensePlateNumber} ${car.available}  `
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
-  });
+  const filteredCars = cars.filter((car) => 
+    `${car.make} ${car.model} ${car.type} ${car.fuelType} ${car.year} ${car.color} ${car.price} ${car.licensePlateNumber} ${car.available}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="w-screen">
+    <div className="w-screen h-screen flex flex-col">
       <AdminNav />
-      <div className="p-4 l:px-0">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="p-2 border rounded-md mb-4"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="flex-grow p-4 l:px-0">
+        {isLoading ? (
+          <div className="flex h-full justify-center items-center">
+            <div className="w-12 h-12 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="p-2 border rounded-md mb-4"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredCars.map((car) => (
             <div key={car._id} className="bg-white rounded-xl shadow-lg p-4">
               <img
@@ -62,14 +71,10 @@ export default function AdminCarsPage() {
               </div>
             </div>
           ))}
-        </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 }
-
-
-
-
-
-
