@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminNav from '../../components/AdminNav/AdminNav';
 import { publicRequest } from '../../hooks/requestMethods';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 export default function AdminCarsPage() {
   const [cars, setCars] = useState([]);
@@ -35,9 +36,7 @@ export default function AdminCarsPage() {
       <AdminNav />
       <div className="flex-grow p-4 l:px-0">
         {isLoading ? (
-          <div className="flex h-full justify-center items-center">
-            <div className="w-12 h-12 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
-          </div>
+          <LoadingSpinner/>
         ) : (
           <>
             <input
