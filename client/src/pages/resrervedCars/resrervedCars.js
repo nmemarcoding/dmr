@@ -3,17 +3,20 @@ import AdminNav from '../../components/AdminNav/AdminNav';
 import AdminReservedCarTable from '../../components/AdminReservedCarTable/AdminReservedCarTable';
 import { publicRequest } from '../../hooks/requestMethods'
 import useStore from '../../store';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 export default function ReservedCars() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('id'); 
   const [ordersDetails, setOrderDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const userInfo = useStore((state) => state?.userInfo)
 
   useEffect(() => {
     publicRequest().get('/order/getallorders')
     .then((res) => {
       setOrderDetails(res.data);
+      setIsLoading(false); // set isLoading to false when data is fetched
     })
     .catch((err) => console.log(err))
   }, []);
@@ -81,14 +84,18 @@ export default function ReservedCars() {
         <option value='date'>Sort by Date</option>
       </select>
 
-      {currentOrders.map((order) => (
-        <AdminReservedCarTable 
-          order={order} 
-          key={order._id}
-          handelPickUp={handelPickUp}
-          handelReturn={handelReturn}
-        />
-      ))}
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        currentOrders.map((order) => (
+          <AdminReservedCarTable 
+            order={order} 
+            key={order._id}
+            handelPickUp={handelPickUp}
+            handelReturn={handelReturn}
+          />
+        ))
+      )}
     </div>
   );
 }
