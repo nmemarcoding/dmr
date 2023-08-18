@@ -59,10 +59,8 @@ export default function OrderHistory() {
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-semibold mb-6">Order History</h1>
-        {/* Table for desktop screens (md and above) */}
         <div className="md:block hidden">
           <table className="table-auto w-full">
-            {/* Table headers */}
             <thead>
               <tr>
                 <th className="px-4 py-2 border">Car</th>
@@ -70,51 +68,20 @@ export default function OrderHistory() {
                 <th className="px-4 py-2 border">Order Time</th>
                 <th className="px-4 py-2 border">Pickup Time</th>
                 <th className="px-4 py-2 border">Return Time</th>
+                <th className="px-4 py-2 border">Total</th>
                 <th className="px-4 py-2 border">Status</th>
               </tr>
             </thead>
-            {/* Table body */}
             <tbody>
               {orders.map((order) => (
                 <tr key={order._id}>
-                  <td className="border px-4 py-2">
-                    {`${order.carId.make} ${order.carId.model}`}
-                  </td>
+                  <td className="border px-4 py-2">{`${order.carId.make} ${order.carId.model}`}</td>
                   <td className="border px-4 py-2">{order.carId.licensePlateNumber}</td>
-                  <td className="border px-4 py-2">
-                    {formatDate(order.orderTime)}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {order.pickUpTime ? (
-                      <span>
-                        {formatDate(order.pickUpTime)}{' '}
-                        {getStatus(order) === 'Returned' && (
-                          <span className="text-green-600 ml-1">✓</span>
-                        )}
-                      </span>
-                    ) : (
-                      'Not Picked Up'
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {order.returnTime ? (
-                      <span>
-                        {formatDate(order.returnTime)}{' '}
-                        {getStatus(order) === 'Returned' && (
-                          <span className="text-green-600 ml-1">✓</span>
-                        )}
-                      </span>
-                    ) : (
-                      'Not Returned'
-                    )}
-                  </td>
-                  <td
-                    className={`border px-4 py-2 ${
-                      getStatus(order) === 'Returned'
-                        ? 'bg-green-600 text-white'
-                        : 'bg-yellow-600 text-gray-800'
-                    }`}
-                  >
+                  <td className="border px-4 py-2">{formatDate(order.orderTime)}</td>
+                  <td className="border px-4 py-2">{order.pickUpTime ? formatDate(order.pickUpTime) : 'Not Picked Up'}</td>
+                  <td className="border px-4 py-2">{order.returnTime ? formatDate(order.returnTime) : 'Not Returned'}</td>
+                  <td className="border px-4 py-2">${order.total ? order.total.toFixed(2) : "N/A"}</td>
+                  <td className={`border px-4 py-2 ${getStatus(order) === 'Returned' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-gray-800'}`}>
                     {getStatus(order)}
                   </td>
                 </tr>
@@ -122,15 +89,10 @@ export default function OrderHistory() {
             </tbody>
           </table>
         </div>
-        {/* Cards for mobile screens (sm and below) */}
         <div className="md:hidden block">
           <div className="grid grid-cols-1 gap-4">
             {orders.map((order) => (
-              <div
-                key={order._id}
-                className="bg-white shadow-md rounded-lg overflow-hidden border" // Add "border" class here
-              >
-                {/* Card content */}
+              <div key={order._id} className="bg-white shadow-md rounded-lg overflow-hidden border">
                 <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Car</div>
                   <div>{`${order.carId.make} ${order.carId.model}`}</div>
@@ -145,41 +107,17 @@ export default function OrderHistory() {
                 </div>
                 <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Pickup Time</div>
-                  <div>
-                    {order.pickUpTime ? (
-                      <span>
-                        {formatDate(order.pickUpTime)}{' '}
-                        {getStatus(order) === 'Returned' && (
-                          <span className="text-green-600 ml-1">✓</span>
-                        )}
-                      </span>
-                    ) : (
-                      'Not Picked Up'
-                    )}
-                  </div>
+                  <div>{order.pickUpTime ? formatDate(order.pickUpTime) : 'Not Picked Up'}</div>
                 </div>
                 <div className="p-4 border-b">
                   <div className="font-semibold mb-2">Return Time</div>
-                  <div>
-                    {order.returnTime ? (
-                      <span>
-                        {formatDate(order.returnTime)}{' '}
-                        {getStatus(order) === 'Returned' && (
-                          <span className="text-green-600 ml-1">✓</span>
-                        )}
-                      </span>
-                    ) : (
-                      'Not Returned'
-                    )}
-                  </div>
+                  <div>{order.returnTime ? formatDate(order.returnTime) : 'Not Returned'}</div>
                 </div>
-                <div
-                  className={`px-4 py-3 ${
-                    getStatus(order) === 'Returned'
-                      ? 'bg-green-600 text-white'
-                      : 'bg-yellow-600 text-gray-800'
-                  }`}
-                >
+                <div className="p-4 border-b">
+                  <div className="font-semibold mb-2">Total</div>
+                  <div>${order.total ? order.total.toFixed(2) : "N/A"}</div>
+                </div>
+                <div className={`px-4 py-3 ${getStatus(order) === 'Returned' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-gray-800'}`}>
                   {getStatus(order)}
                 </div>
               </div>
