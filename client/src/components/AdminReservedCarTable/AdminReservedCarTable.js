@@ -9,20 +9,17 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
     handelReturn(order._id);
   };
   
-  // Function to check if orderTime is more than one day ago
   const isOrderCancelled = () => {
-    const oneDayInMillis = 24 * 60 * 60 * 1000; // Number of milliseconds in one day
+    const oneDayInMillis = 24 * 60 * 60 * 1000;
     const orderTimeInMillis = new Date(order.orderTime).getTime();
     const currentTimeInMillis = new Date().getTime();
     return currentTimeInMillis - orderTimeInMillis > oneDayInMillis;
   };
 
   const displayActions = () => {
-    // Check for "Returned" status first
     if (order.returnTime && order.pickUpTime) {
         return <div className=''>Returned</div>;
     }
-    // If not "Returned", then check for "Cancelled"
     if (isOrderCancelled()) {
         return <div className='text-red-600'>Cancelled</div>;
     }
@@ -71,6 +68,9 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
             <strong className='font-bold'>Status: </strong>
             {order.carId.available ? 'Available' : 'Not Available'}
           </div>
+          <div className='mb-2'>
+            <strong className='font-bold'>Order Total: </strong> ${order.total}
+          </div>
           {displayActions()}
         </div>
       </div>
@@ -83,6 +83,7 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
               <th className='px-2 sm:px-4 py-2'>Car</th>
               <th className='px-2 sm:px-4 py-2'>Pick Up Due</th>
               <th className='px-2 sm:px-4 py-2'>Status</th>
+              <th className='px-2 sm:px-4 py-2'>Order Total</th>
               <th className='px-2 sm:px-4 py-2'>Actions</th>
             </tr>
           </thead>
@@ -93,6 +94,7 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
               <td className='px-2 sm:px-4 py-2'>{`${order.carId.make} ${order.carId.model}`}</td>
               <td className='px-2 sm:px-4 py-2'>{new Date(order.orderTime).toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric'})} Until 6 PM</td>
               <td className='px-2 sm:px-4 py-2'>{order.carId.available ? 'Available' : 'Not Available'}</td>
+              <td className='px-2 sm:px-4 py-2'>${order.total ? order.total.toFixed(2) : "N/A"}</td>
               <td className='px-2 sm:px-4 py-2'>
                 {displayActions()}
               </td>
