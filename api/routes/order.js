@@ -177,7 +177,15 @@ router.get('/getuserorders', async(req, res) => {
                 path: 'userId',
                 select: '_id email firstName lastName phoneNumber'
             });
-        res.status(200).json(orders);
+            
+        const ordersWithTotal = orders.map(order => {
+            return {
+                ...order._doc,
+                total: order.calculateTotal()
+            }
+        });
+        
+        res.status(200).json(ordersWithTotal);
     } catch (err) {
         res.status(500).json(err);
     }
