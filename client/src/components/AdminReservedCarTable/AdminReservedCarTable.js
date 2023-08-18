@@ -20,7 +20,7 @@ export default function AdminReservedCarTable({ order, onPickUp, handelPickUp, h
     if (order.returnTime && order.pickUpTime) {
         return <div className=''>Returned</div>;
     }
-    if (isOrderCancelled()) {
+    if (isOrderCancelled()&& !order.returnTime && !order.pickUpTime) {
         return <div className='text-red-600'>Cancelled</div>;
     }
     if (order.pickUpTime && !order.returnTime && !order.carId.available) {
