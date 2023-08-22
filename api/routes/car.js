@@ -20,6 +20,7 @@ router.post('/addnewcar', async(req, res) => {
 
 router.get('/search', async (req, res) => {
     try {
+       
         const searchTerm = req.query.search;
         const searchTermsArray = searchTerm.split(' ');
 

@@ -6,8 +6,12 @@ const cors = require('cors');
 const app = express();
 
 // Middleware
-app.use(bodyParser.json());
+// corse to allow all origins
 app.use(cors());
+app.use(bodyParser.json());
+
+  
+  
 
 // Connect to MongoDB
 mongoose
