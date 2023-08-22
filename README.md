@@ -2,6 +2,8 @@
 
 Welcome to DMR, a digital platform for motor rentals. This project offers both a backend API and a frontend client for users to browse, select, and rent vehicles.
 
+![DMR Screenshot](https://github.com/nmemarcoding/dmr/assets/94582549/783d592d-03d7-4c1d-b245-82ea23fbe7d3)
+
 ## Live Demo
 
 [DMR Live Demo](https://dmr-api-eba25.web.app/)
