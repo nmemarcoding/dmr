@@ -58,7 +58,7 @@ export default function ReservedCars() {
   const handelReturn = (id) => {
     publicRequest().put(`/order/updatereturntime/${id}`)
     .then((res) => {
-      window,alert('Car returned successfully');
+      window.alert('Car returned successfully');
       window.location.reload();
     })
     .catch((err) => console.log(err))
