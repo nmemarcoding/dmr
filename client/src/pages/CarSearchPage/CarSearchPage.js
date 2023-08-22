@@ -10,7 +10,7 @@ export default function CarSearchPage() {
     const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
-        console.log(searchQuery);
+       
         publicRequest().get(`/car/search?search=${searchQuery}`)
 
             .then(res => {
